@@ -178,44 +178,40 @@ export default function FinalBuildSlide() {
               title="PROJECT TREE"
               code={`my-chatbot/
 ├── node_modules/
+├── public/
+├── src/
+│   ├── main.js
+│   └── style.css
 ├── .env
 ├── .gitignore
 ├── index.html
-├── main.js
-├── style.css
 ├── package.json
 └── vite.config.js (optional)`}
             />
           </StepCard>
 
-          {/* STEP 6: TEST */}
+          {/* STEP 6: CLEAR DEFAULT FILES */}
           <StepCard 
             step="06" 
-            title="SYSTEM TEST" 
-            icon={<Play size={20} />}
+            title="CLEAR DEFAULT FILES" 
+            icon={<FileCode size={20} />}
             side="right"
           >
             <p className="text-sm text-zinc-400 mb-3">
-              Verify connectivity with a test request.
+              Remove default Vite content and prepare for chatbot code.
             </p>
             <TerminalBlock 
-              title="main.js"
-              language="javascript"
-              code={`import { GoogleGenerativeAI } from "@google/generative-ai";
+              title="TERMINAL"
+              code={`# Remove default files
+rm src/counter.js
+rm src/javascript.svg
+rm public/vite.svg
 
-const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
-
-async function testConnection() {
-  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
-  const result = await model.generateContent("System check. Status?");
-  console.log(result.response.text());
-}
-
-testConnection();`}
+# Or manually delete these files`}
             />
             <div className="mt-2 text-[10px] font-mono text-zinc-500 flex items-center gap-2">
-              <AlertTriangle size={10} className="text-yellow-500" />
-              <span>NOTE: Use gemini-2.0-flash-exp or gemini-1.5-flash</span>
+              <Check size={10} className="text-green-500" />
+              <span>CLEAN SLATE READY FOR CHATBOT CODE</span>
             </div>
           </StepCard>
 
@@ -442,39 +438,37 @@ function CodeContent({ code }: { code: string }) {
 const fullCode = {
   html: `<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>chatbot</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Chatbot // Gemini</title>
+</head>
+<body>
+  <div id="app"></div>
+  <script type="module" src="/src/main.js"></script>
+</body>
 </html>`,
 
   css: `:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Courier New', monospace;
   line-height: 1.5;
   font-weight: 400;
+
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #0a0a0a;
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-
-a:hover {
-  color: #535bf2;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
@@ -485,39 +479,128 @@ body {
   min-height: 100vh;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
 #app {
-  max-width: 1280px;
+  max-width: 900px;
+  width: 100%;
   margin: 0 auto;
   padding: 2rem;
-  text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+.terminal-container {
+  width: 100%;
+  height: 85vh;
+  background: #141414;
+  border: 1px solid #333;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 30px rgba(0,0,0,0.7);
 }
 
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+.terminal-header {
+  background: #1a1a1a;
+  padding: 12px 20px;
+  border-bottom: 1px solid #333;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.logo.vanilla:hover {
-  filter: drop-shadow(0 0 2em #f7df1eaa);
+.terminal-header h1 {
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 2px;
 }
 
-.card {
-  padding: 2em;
+.status-dot {
+  width: 10px;
+  height: 10px;
+  background: #00ff00;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #00ff00;
+  animation: pulse 2s infinite;
 }
 
-.read-the-docs {
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.messages-area {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.messages-area::-webkit-scrollbar {
+  width: 8px;
+}
+
+.messages-area::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+.messages-area::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+.message { 
+  margin-bottom: 20px;
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.user-msg { 
+  color: #fff; 
+  font-weight: bold;
+}
+
+.ai-msg { 
   color: #888;
+  white-space: pre-wrap;
+}
+
+.system-message {
+  color: #00ff00;
+  margin-bottom: 20px;
+}
+
+.error {
+  color: #ff4444;
+}
+
+.input-area {
+  padding: 20px;
+  border-top: 1px solid #333;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #0a0a0a;
+}
+
+.prompt {
+  color: #3b82f6;
+  font-weight: bold;
+}
+
+input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-family: inherit;
+  font-size: 16px;
+  outline: none;
+}
+
+input::placeholder {
+  color: #555;
 }
 
 button {
@@ -527,13 +610,22 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #3b82f6;
+  color: #fff;
   cursor: pointer;
   transition: border-color 0.25s;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 1px;
 }
 
-button:hover {
-  border-color: #646cff;
+button:hover { 
+  background: #2563eb;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+}
+
+button:active {
+  transform: scale(0.98);
 }
 
 button:focus,
@@ -546,38 +638,138 @@ button:focus-visible {
     color: #213547;
     background-color: #ffffff;
   }
-  a:hover {
-    color: #747bff;
+  .terminal-container {
+    background: #f5f5f5;
+    border-color: #ddd;
   }
-  button {
-    background-color: #f9f9f9;
+  .terminal-header {
+    background: #e5e5e5;
+    border-bottom-color: #ddd;
+  }
+  .messages-area {
+    background: #fff;
+  }
+  .input-area {
+    background: #f5f5f5;
+    border-top-color: #ddd;
+  }
+  input {
+    color: #213547;
+  }
+  .user-msg {
+    color: #213547;
+  }
+  .ai-msg {
+    color: #666;
   }
 }`,
 
   js: `import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
+// Initialize the Gemini API
+const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
+const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
+
+// Chat history for context
+const chatHistory = [];
+
+// Build the UI
 document.querySelector('#app').innerHTML = \`
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="\${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="\${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
+  <div class="terminal-container">
+    <header class="terminal-header">
+      <div class="status-dot"></div>
+      <h1>GEMINI_AGENT_V1</h1>
+    </header>
+    
+    <div class="messages-area" id="messages">
+      <div class="system-message">
+        > SYSTEM INITIALIZED<br>
+        > WAITING FOR INPUT...
+      </div>
     </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
+    
+    <div class="input-area">
+      <span class="prompt">></span>
+      <input 
+        type="text" 
+        id="userInput" 
+        placeholder="Enter command..."
+        autocomplete="off"
+      >
+      <button id="sendBtn" type="button">EXECUTE</button>
+    </div>
   </div>
 \`
 
-setupCounter(document.querySelector('#counter'))`,
+// Get DOM elements
+const userInput = document.querySelector('#userInput');
+const sendBtn = document.querySelector('#sendBtn');
+const messages = document.querySelector('#messages');
+
+async function sendMessage() {
+  const text = userInput.value.trim();
+  if (!text) return;
+
+  // Disable input while processing
+  userInput.disabled = true;
+  sendBtn.disabled = true;
+
+  // Add user message to UI
+  addMessage(\`> USER: \${text}\`, 'user-msg');
+  userInput.value = '';
+
+  try {
+    // Add to chat history
+    chatHistory.push({
+      role: "user",
+      parts: [{ text }]
+    });
+
+    // Create chat session with history
+    const chat = model.startChat({
+      history: chatHistory,
+    });
+
+    // Send message and get response
+    const result = await chat.sendMessage(text);
+    const response = result.response.text();
+
+    // Add AI response to history
+    chatHistory.push({
+      role: "model",
+      parts: [{ text: response }]
+    });
+
+    addMessage(\`> AI: \${response}\`, 'ai-msg');
+
+  } catch (err) {
+    console.error('Error:', err);
+    addMessage(\`> ERROR: \${err.message}\`, 'error');
+  } finally {
+    // Re-enable input
+    userInput.disabled = false;
+    sendBtn.disabled = false;
+    userInput.focus();
+  }
+}
+
+function addMessage(text, className) {
+  const msgDiv = document.createElement('div');
+  msgDiv.className = \`message \${className}\`;
+  msgDiv.textContent = text;
+  messages.appendChild(msgDiv);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+// Event listeners
+sendBtn.addEventListener('click', sendMessage);
+userInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+});`,
 
   env: `VITE_GEMINI_API_KEY=your_api_key_here`
 }
