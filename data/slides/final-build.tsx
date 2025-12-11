@@ -129,15 +129,15 @@ export default function FinalBuildSlide() {
             side="left"
           >
             <p className="text-sm text-zinc-400">
-              Install Google GenAI SDK bindings.
+              Install Google GenAI SDK bindings (Node.js v18+ required).
             </p>
             <TerminalBlock 
               title="TERMINAL"
-              code={`npm install @google/generative-ai`}
+              code={`npm install @google/genai`}
             />
             <div className="mt-2 text-[10px] font-mono text-zinc-500 flex items-center gap-2">
               <Check size={10} className="text-green-500" />
-              <span>CORRECT PACKAGE: @google/generative-ai</span>
+              <span>OFFICIAL PACKAGE: @google/genai</span>
             </div>
           </StepCard>
 
@@ -375,11 +375,11 @@ rm public/vite.svg
             </div>
             <div className="border border-zinc-700 bg-zinc-900/50 p-4">
               <p className="font-mono text-sm text-red-400 mb-2">ERROR: Package not found</p>
-              <p className="text-xs text-zinc-400">→ Use @google/generative-ai (not @google/genai)</p>
+              <p className="text-xs text-zinc-400">→ Use @google/genai (official package from Google AI documentation)</p>
             </div>
             <div className="border border-zinc-700 bg-zinc-900/50 p-4">
               <p className="font-mono text-sm text-red-400 mb-2">ERROR: Model not available</p>
-              <p className="text-xs text-zinc-400">→ Use gemini-2.0-flash-exp, gemini-1.5-flash, or gemini-1.5-pro</p>
+              <p className="text-xs text-zinc-400">→ Use gemini-2.5-flash (recommended) or gemini-1.5-flash</p>
             </div>
           </div>
         </div>
@@ -665,11 +665,13 @@ button:focus-visible {
 }`,
 
   js: `import './style.css'
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenAI } from "@google/genai";
 
 // Initialize the Gemini API
-const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
+// The client gets the API key from the environment variable VITE_GEMINI_API_KEY
+const ai = new GoogleGenAI({
+  apiKey: import.meta.env.VITE_GEMINI_API_KEY
+});
 
 // Chat history for context
 const chatHistory = [];
@@ -720,28 +722,31 @@ async function sendMessage() {
   userInput.value = '';
 
   try {
-    // Add to chat history
-    chatHistory.push({
+    // Build chat history for context
+    const contents = chatHistory.map(msg => ({
+      role: msg.role,
+      parts: [{ text: msg.text }]
+    }));
+    
+    // Add current message
+    contents.push({
       role: "user",
       parts: [{ text }]
     });
 
-    // Create chat session with history
-    const chat = model.startChat({
-      history: chatHistory,
+    // Send request to Gemini API
+    const response = await ai.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: contents
     });
 
-    // Send message and get response
-    const result = await chat.sendMessage(text);
-    const response = result.response.text();
+    const aiResponse = response.text;
 
-    // Add AI response to history
-    chatHistory.push({
-      role: "model",
-      parts: [{ text: response }]
-    });
+    // Update chat history
+    chatHistory.push({ role: "user", text });
+    chatHistory.push({ role: "model", text: aiResponse });
 
-    addMessage(\`> AI: \${response}\`, 'ai-msg');
+    addMessage(\`> AI: \${aiResponse}\`, 'ai-msg');
 
   } catch (err) {
     console.error('Error:', err);
