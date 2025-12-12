@@ -22,7 +22,7 @@ interface SectionContent {
 
 interface SlideProps {
   slide: any
-  onCopyCode: (id: number) => void
+  onCopyCode: (id: number, code: string) => void
   copied: number | null
 }
 
@@ -102,7 +102,7 @@ export default function Slide({ slide, onCopyCode, copied }: SlideProps) {
             content={slide.intro}
             language={slide.language}
             sectionId={0}
-            onCopyCode={(code) => onCopyCode(0)}
+            onCopyCode={(code) => onCopyCode(0, code)}
             copied={copied === 0}
             defaultOpen={true}
           />
@@ -113,7 +113,7 @@ export default function Slide({ slide, onCopyCode, copied }: SlideProps) {
             content={slide.chatbot}
             language={slide.language}
             sectionId={1}
-            onCopyCode={(code) => onCopyCode(1)}
+            onCopyCode={(code) => onCopyCode(1, code)}
             copied={copied === 1}
             highlight={true}
           />
@@ -134,7 +134,7 @@ export default function Slide({ slide, onCopyCode, copied }: SlideProps) {
                     idx={idx}
                     isExpanded={expandedSections.includes(idx)}
                     onToggle={() => toggleExpanded(idx)}
-                    onCopy={() => onCopyCode(100 + idx)}
+                    onCopy={() => onCopyCode(100 + idx, item.code)}
                     isCopied={copied === 100 + idx}
                   />
                 ))}
@@ -206,7 +206,7 @@ function TerminalWindow({
 }: { 
   code: string, 
   language: string, 
-  onCopy: () => void, 
+  onCopy: (code: string) => void, 
   copied: boolean 
 }) {
   return (
@@ -227,7 +227,7 @@ function TerminalWindow({
         </div>
         
         <button
-          onClick={onCopy}
+          onClick={() => onCopy(code)}
           className="flex items-center gap-1.5 px-2 py-0.5 text-[10px] uppercase font-bold tracking-wider text-muted-foreground hover:text-foreground hover:bg-border/50 transition-colors"
         >
           {copied ? (
