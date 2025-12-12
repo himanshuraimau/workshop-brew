@@ -61,9 +61,14 @@ export default function WorkshopPage() {
   }, [paginate])
 
   // Copy Feedback Logic
-  const handleCopy = (id: number) => {
-    setCopied(id)
-    setTimeout(() => setCopied(null), 2000)
+  const handleCopy = async (id: number, code: string) => {
+    try {
+      await navigator.clipboard.writeText(code)
+      setCopied(id)
+      setTimeout(() => setCopied(null), 2000)
+    } catch (err) {
+      console.error('Failed to copy code:', err)
+    }
   }
 
   // Calculate Progress
