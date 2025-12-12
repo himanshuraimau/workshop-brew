@@ -151,3 +151,44 @@
   z-index: 50;
   opacity: 0.3;
 }
+
+/* Matiks Theme Custom Styles */
+.matiks-event {
+  --matiks-accent: #00ff88; /* Mint-neon green */
+  --matiks-bg: #000000; /* Pure black */
+  --matiks-surface: #111111; /* Slightly elevated black */
+  --matiks-border: #333333; /* Dark border */
+  --matiks-text: #ffffff; /* Pure white text */
+  --matiks-text-muted: #a0a0a0; /* Muted text */
+}
+
+/* Wavy background pattern for Matiks */
+@keyframes wave-flow {
+  0%, 100% { transform: translateX(-10px) translateY(0px); }
+  50% { transform: translateX(10px) translateY(-5px); }
+}
+
+.matiks-wave {
+  position: absolute;
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.matiks-wave::before {
+  content: '';
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent 0px,
+    transparent 10px,
+    var(--matiks-accent) 10px,
+    var(--matiks-accent) 11px,
+    transparent 11px,
+    transparent 21px
+  );
+  border-radius: 50%;
+  animation: wave-flow 8s ease-in-out infinite;
+}

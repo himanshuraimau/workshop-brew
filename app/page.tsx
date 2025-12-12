@@ -12,7 +12,11 @@ import {
 } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import Slide from "@/components/slide"
+import MatiksEvent from "@/components/matiks-event"
+import Navigation from "@/components/navigation"
 import { slides } from "@/data/slides-index"
+
+type NavigationMode = "workshop" | "matiks"
 
 // Animation Variants for Directional Sliding
 const variants = {
@@ -38,9 +42,10 @@ const variants = {
   }),
 }
 
-export default function WorkshopPage() {
+export default function HomePage() {
   const [[currentSlide, direction], setPage] = useState([0, 0])
   const [copied, setCopied] = useState<number | null>(null)
+  const [mode, setMode] = useState<NavigationMode>("workshop")
 
   // Smart Page Change Handler
   const paginate = useCallback((newDirection: number) => {
@@ -75,122 +80,122 @@ export default function WorkshopPage() {
   const progressPercentage = ((currentSlide + 1) / slides.length) * 100
 
   return (
-    <div className="w-full h-screen relative flex flex-col bg-background">
+    <div className="w-full min-h-screen relative flex flex-col bg-background">
       
-      {/* --- Top Header / Status Bar --- */}
-      <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 pointer-events-none">
-        <div className="flex items-center gap-2 text-primary font-mono text-sm tracking-wider">
-          <Cpu size={16} />
-          <span className="font-bold">WORKSHOP_OS</span>
-          <span className="text-muted-foreground hidden sm:inline">v2.0.4</span>
-        </div>
-        
-        {/* Slide Counter (Digital Clock Style) */}
-        <div className="font-mono text-xl tracking-widest text-foreground/80 bg-background/50 backdrop-blur-sm px-3 py-1 border border-border">
-          {String(currentSlide + 1).padStart(2, '0')} 
-          <span className="text-muted-foreground text-sm mx-1">/</span> 
-          {String(slides.length).padStart(2, '0')}
-        </div>
-      </header>
+      {/* Navigation */}
+      <Navigation 
+        current={currentSlide} 
+        total={slides.length}
+        mode={mode}
+        onModeChange={setMode}
+      />
 
-      {/* --- Main Content Area --- */}
-      <main className="flex-1 relative flex items-center justify-center p-4 sm:p-12">
-        <AnimatePresence initial={false} custom={direction} mode="wait">
-          <motion.div
-            key={currentSlide}
-            custom={direction}
-            variants={variants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={{
-              x: { type: "spring", stiffness: 300, damping: 30 },
-              opacity: { duration: 0.2 },
-            }}
-            className="w-full max-w-5xl h-full flex flex-col justify-center relative z-10"
-            drag="x"
-            dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={0.2}
-            onDragEnd={(e, { offset, velocity }) => {
-              const swipe = offset.x; // swipe distance
-              if (swipe < -50) paginate(1)
-              else if (swipe > 50) paginate(-1)
-            }}
-          >
-            {/* The Slide Component is wrapped here */}
-            <div className="bg-card/50 backdrop-blur-md border border-border p-6 md:p-10 shadow-2xl relative overflow-y-auto max-h-[calc(100vh-12rem)] group">
-              {/* Decorative Corner Markers */}
-              <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-primary" />
-              <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-primary" />
-              <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-primary" />
-              <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-primary" />
+      {/* Main Content Area */}
+      <main className="flex-1 relative pt-16">
+        {mode === "workshop" ? (
+          <div className="h-screen flex items-center justify-center p-4 sm:p-12">
+            <AnimatePresence initial={false} custom={direction} mode="wait">
+              <motion.div
+                key={currentSlide}
+                custom={direction}
+                variants={variants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{
+                  x: { type: "spring", stiffness: 300, damping: 30 },
+                  opacity: { duration: 0.2 },
+                }}
+                className="w-full max-w-5xl h-full flex flex-col justify-center relative z-10"
+                drag="x"
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={0.2}
+                onDragEnd={(e, { offset, velocity }) => {
+                  const swipe = offset.x; // swipe distance
+                  if (swipe < -50) paginate(1)
+                  else if (swipe > 50) paginate(-1)
+                }}
+              >
+                {/* The Slide Component is wrapped here */}
+                <div className="bg-card/50 backdrop-blur-md border border-border p-6 md:p-10 shadow-2xl relative overflow-y-auto max-h-[calc(100vh-12rem)] group">
+                  {/* Decorative Corner Markers */}
+                  <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-primary" />
+                  <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-primary" />
+                  <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-primary" />
+                  <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-primary" />
 
-              <Slide
-                slide={slides[currentSlide]}
-                onCopyCode={handleCopy}
-                copied={copied}
-              />
-            </div>
-          </motion.div>
-        </AnimatePresence>
+                  <Slide
+                    slide={slides[currentSlide]}
+                    onCopyCode={handleCopy}
+                    copied={copied}
+                  />
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        ) : (
+          <MatiksEvent />
+        )}
       </main>
 
-      {/* --- Bottom Control Deck --- */}
-      <footer className="fixed bottom-0 left-0 right-0 z-50 p-6 pointer-events-none">
-        <div className="max-w-2xl mx-auto pointer-events-auto">
-          <div className="bg-secondary/90 border border-border backdrop-blur-xl p-1 shadow-2xl flex flex-col gap-1">
-            
-            {/* Progress Bar (Integrated) */}
-            <div className="w-full h-1 bg-muted overflow-hidden">
-              <motion.div 
-                className="h-full bg-gradient-to-r from-primary to-accent"
-                initial={{ width: 0 }}
-                animate={{ width: `${progressPercentage}%` }}
-                transition={{ type: "spring", bounce: 0, duration: 0.5 }}
-              />
-            </div>
-
-            {/* Navigation Controls */}
-            <div className="flex items-center justify-between p-2">
-              <div className="flex items-center gap-1">
-                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                 <span className="text-[10px] uppercase font-mono text-muted-foreground tracking-widest">Online</span>
+      {/* Bottom Control Deck - Only show in workshop mode */}
+      {mode === "workshop" && (
+        <footer className="fixed bottom-0 left-0 right-0 z-50 p-6 pointer-events-none">
+          <div className="max-w-2xl mx-auto pointer-events-auto">
+            <div className="bg-secondary/90 border border-border backdrop-blur-xl p-1 shadow-2xl flex flex-col gap-1">
+              
+              {/* Progress Bar (Integrated) */}
+              <div className="w-full h-1 bg-muted overflow-hidden">
+                <motion.div 
+                  className="h-full bg-linear-to-r from-primary to-accent"
+                  initial={{ width: 0 }}
+                  animate={{ width: `${progressPercentage}%` }}
+                  transition={{ type: "spring", bounce: 0, duration: 0.5 }}
+                />
               </div>
 
-              <div className="flex gap-4">
-                <button
-                  onClick={() => paginate(-1)}
-                  disabled={currentSlide === 0}
-                  className="group relative px-4 py-2 bg-background border border-border hover:border-primary hover:text-primary transition-all disabled:opacity-30 disabled:hover:border-border disabled:cursor-not-allowed active:translate-y-0.5"
-                >
-                  <ArrowLeft size={20} />
-                  <span className="sr-only">Previous</span>
-                </button>
+              {/* Navigation Controls */}
+              <div className="flex items-center justify-between p-2">
+                <div className="flex items-center gap-1">
+                   <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                   <span className="text-[10px] uppercase font-mono text-muted-foreground tracking-widest">Online</span>
+                </div>
 
-                <div className="h-full w-[1px] bg-border mx-2" />
+                <div className="flex gap-4">
+                  <button
+                    onClick={() => paginate(-1)}
+                    disabled={currentSlide === 0}
+                    className="group relative px-4 py-2 bg-background border border-border hover:border-primary hover:text-primary transition-all disabled:opacity-30 disabled:hover:border-border disabled:cursor-not-allowed active:translate-y-0.5"
+                  >
+                    <ArrowLeft size={20} />
+                    <span className="sr-only">Previous</span>
+                  </button>
 
-                <button
-                  onClick={() => paginate(1)}
-                  disabled={currentSlide === slides.length - 1}
-                  className="group relative px-4 py-2 bg-background border border-border hover:border-primary hover:text-primary transition-all disabled:opacity-30 disabled:hover:border-border disabled:cursor-not-allowed active:translate-y-0.5"
-                >
-                  <ArrowRight size={20} />
-                  <span className="sr-only">Next</span>
-                </button>
-              </div>
+                  <div className="h-full w-px bg-border mx-2" />
 
-              <div className="hidden sm:flex items-center gap-2 text-[10px] text-muted-foreground font-mono">
-                <span>NAV:</span>
-                <kbd className="bg-muted px-1 py-0.5 text-foreground">←</kbd>
-                <kbd className="bg-muted px-1 py-0.5 text-foreground">→</kbd>
+                  <button
+                    onClick={() => paginate(1)}
+                    disabled={currentSlide === slides.length - 1}
+                    className="group relative px-4 py-2 bg-background border border-border hover:border-primary hover:text-primary transition-all disabled:opacity-30 disabled:hover:border-border disabled:cursor-not-allowed active:translate-y-0.5"
+                  >
+                    <ArrowRight size={20} />
+                    <span className="sr-only">Next</span>
+                  </button>
+                </div>
+
+                <div className="hidden sm:flex items-center gap-2 text-[10px] text-muted-foreground font-mono">
+                  <span>NAV:</span>
+                  <kbd className="bg-muted px-1 py-0.5 text-foreground">←</kbd>
+                  <kbd className="bg-muted px-1 py-0.5 text-foreground">→</kbd>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </footer>
-      
-      {/* Decorative Vignette */}
-      <div className="fixed inset-0 pointer-events-none z-[40] bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.4)_100%)]" />
+        </footer>
+      )}
+
+      {/* Visual Enhancement Overlay */}
+      <div className="fixed inset-0 pointer-events-none z-40 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.4)_100%)]" />
     </div>
   )
 }

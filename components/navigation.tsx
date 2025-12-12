@@ -1,8 +1,18 @@
 "use client"
 
 import { Cpu, Wifi } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
-export default function Navigation({ current, total }: { current: number; total: number }) {
+type NavigationMode = "workshop" | "matiks"
+
+interface NavigationProps {
+  current: number;
+  total: number;
+  mode: NavigationMode;
+  onModeChange: (mode: NavigationMode) => void;
+}
+
+export default function Navigation({ current, total, mode, onModeChange }: NavigationProps) {
   return (
     <nav className="fixed top-0 left-0 right-0 z-40 bg-background/80 backdrop-blur-md border-b border-border h-16 pointer-events-none">
       <div className="w-full h-full max-w-7xl mx-auto px-6 flex items-center justify-between pointer-events-auto">
@@ -20,6 +30,28 @@ export default function Navigation({ current, total }: { current: number; total:
               Interactive Learning Environment
             </span>
           </div>
+        </div>
+
+        {/* Center: Mode Selector */}
+        <div className="flex items-center gap-2 bg-background/60 rounded-lg border border-border p-1">
+          <Button
+            variant={mode === "workshop" ? "default" : "ghost"}
+            size="sm"
+            onClick={() => onModeChange("workshop")}
+            className="text-xs font-mono tracking-wide"
+          >
+            WORKSHOP
+          </Button>
+          <Button
+            variant={mode === "matiks" ? "default" : "ghost"}
+            size="sm"
+            onClick={() => onModeChange("matiks")}
+            className={`text-xs font-mono tracking-wide ${
+              mode === "matiks" ? "bg-[#00ff88] text-black hover:bg-[#00ff88]/90" : ""
+            }`}
+          >
+            MATIKS EVENT
+          </Button>
         </div>
 
         {/* Right Side: Status & Counter */}
@@ -41,16 +73,18 @@ export default function Navigation({ current, total }: { current: number; total:
             </div>
           </div>
 
-          {/* Slide Counter */}
-          <div className="flex items-baseline gap-1 font-mono">
-            <span className="text-xl font-bold text-foreground">
-              {String(current + 1).padStart(2, '0')}
-            </span>
-            <span className="text-sm text-muted-foreground">/</span>
-            <span className="text-sm text-muted-foreground">
-              {String(total).padStart(2, '0')}
-            </span>
-          </div>
+          {/* Slide Counter - Only show in workshop mode */}
+          {mode === "workshop" && (
+            <div className="flex items-baseline gap-1 font-mono">
+              <span className="text-xl font-bold text-foreground">
+                {String(current + 1).padStart(2, '0')}
+              </span>
+              <span className="text-sm text-muted-foreground">/</span>
+              <span className="text-sm text-muted-foreground">
+                {String(total).padStart(2, '0')}
+              </span>
+            </div>
+          )}
         </div>
       </div>
     </nav>
