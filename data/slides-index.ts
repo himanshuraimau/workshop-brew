@@ -1,4 +1,5 @@
 import { heroSlide } from "./slides/hero"
+import { prerequisitesSlide } from "./slides/prerequisites"
 import { htmlSlide } from "./slides/html"
 import { cssSlide } from "./slides/css"
 import { jsSlide } from "./slides/javascript"
@@ -13,6 +14,7 @@ import { resourcesSlide } from "./slides/resources"
 
 export const slides = [
   heroSlide,
+  prerequisitesSlide,
   htmlSlide,
   cssSlide,
   jsSlide,
