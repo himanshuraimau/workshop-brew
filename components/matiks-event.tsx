@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { motion } from "framer-motion"
 import Image from "next/image"
-import { Calendar, Users, Trophy, Zap, Code, ArrowRight, Copy, Check } from "lucide-react"
+import { Calendar, Users, Trophy, Zap, Code, ArrowRight, Copy, Check, Smartphone, Monitor, Globe } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -167,37 +167,78 @@ export default function MatiksEvent() {
 
       {/* Download App Section */}
       <section className="py-16 px-6 border-t border-gray-800">
-        <div className="max-w-md mx-auto text-center">
-          <div className="bg-gray-900 border border-[#00ff88] rounded-2xl p-8 space-y-6">
+        <div className="max-w-3xl mx-auto text-center">
+          <div className="bg-gray-900 border border-[#00ff88] rounded-2xl p-8 space-y-8">
             <div className="relative">
               <div className="w-24 h-24 bg-gradient-to-br from-[#00ff88] to-green-400 rounded-2xl mx-auto flex items-center justify-center mb-6">
                 <span className="text-3xl font-bold text-black">M</span>
               </div>
-              <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center">
+              <div className="absolute -top-2 left-1/2 -translate-x-1/2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center mx-auto">
                 <span className="text-xs font-bold text-white">!</span>
               </div>
             </div>
             
             <div>
               <h3 className="text-2xl font-bold text-white mb-2">Matiks</h3>
-              <p className="text-gray-400 mb-6">Mental Fitness for Everyone</p>
+              <p className="text-gray-400 mb-2">Mental Fitness for Everyone</p>
+              <p className="text-sm text-gray-500">
+                Choose your platform and start your journey
+              </p>
             </div>
             
-            <Button 
-              asChild
-              className="bg-[#00ff88] hover:bg-green-400 text-black font-bold text-lg px-8 py-4 rounded-xl w-full"
-            >
-              <a 
-                href="https://www.matiks.in/" 
-                target="_blank" 
-                rel="noopener noreferrer"
+            {/* Platform Buttons */}
+            <div className="grid md:grid-cols-3 gap-4">
+              {/* Play Store */}
+              <Button 
+                asChild
+                className="bg-gray-800 hover:bg-[#00ff88] hover:text-black text-white font-bold px-6 py-6 rounded-xl border border-gray-700 hover:border-[#00ff88] transition-all flex flex-col items-center gap-2 h-auto"
               >
-                Download Now
-              </a>
-            </Button>
+                <a 
+                  href="https://play.google.com/store/apps/details?id=com.matiks.app" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                >
+                  <Smartphone className="w-8 h-8" />
+                  <span className="text-base">Play Store</span>
+                  <span className="text-xs opacity-70">Android App</span>
+                </a>
+              </Button>
+
+              {/* Web App */}
+              <Button 
+                asChild
+                className="bg-gray-800 hover:bg-[#00ff88] hover:text-black text-white font-bold px-6 py-6 rounded-xl border border-gray-700 hover:border-[#00ff88] transition-all flex flex-col items-center gap-2 h-auto"
+              >
+                <a 
+                  href="https://www.matiks.in/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                >
+                  <Globe className="w-8 h-8" />
+                  <span className="text-base">Web App</span>
+                  <span className="text-xs opacity-70">Browser Access</span>
+                </a>
+              </Button>
+
+              {/* Desktop */}
+              <Button 
+                asChild
+                className="bg-gray-800 hover:bg-[#00ff88] hover:text-black text-white font-bold px-6 py-6 rounded-xl border border-gray-700 hover:border-[#00ff88] transition-all flex flex-col items-center gap-2 h-auto"
+              >
+                <a 
+                  href="https://www.matiks.in/desktop" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                >
+                  <Monitor className="w-8 h-8" />
+                  <span className="text-base">Desktop</span>
+                  <span className="text-xs opacity-70">Windows/Mac</span>
+                </a>
+              </Button>
+            </div>
             
-            <p className="text-xs text-gray-500 mt-4">
-              Available on Web, iOS & Android
+            <p className="text-xs text-gray-500">
+              All platforms sync seamlessly • One account, everywhere
             </p>
           </div>
         </div>
