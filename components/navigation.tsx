@@ -35,14 +35,6 @@ export default function Navigation({ current, total, mode, onModeChange }: Navig
         {/* Center: Mode Selector */}
         <div className="flex items-center gap-1 sm:gap-1.5 md:gap-2 bg-background/60 rounded-md sm:rounded-lg border border-border p-0.5 sm:p-1 flex-shrink-0 order-3 sm:order-none">
           <Button
-            variant={mode === "workshop" ? "default" : "ghost"}
-            size="sm"
-            onClick={() => onModeChange("workshop")}
-            className="text-[9px] sm:text-[10px] md:text-xs font-mono tracking-wide h-7 sm:h-8 md:h-9 px-2 sm:px-3"
-          >
-            WORKSHOP
-          </Button>
-          <Button
             variant={mode === "matiks" ? "default" : "ghost"}
             size="sm"
             onClick={() => onModeChange("matiks")}
@@ -51,6 +43,14 @@ export default function Navigation({ current, total, mode, onModeChange }: Navig
             }`}
           >
             MATIKS EVENT
+          </Button>
+          <Button
+            variant={mode === "workshop" ? "default" : "ghost"}
+            size="sm"
+            onClick={() => onModeChange("workshop")}
+            className="text-[9px] sm:text-[10px] md:text-xs font-mono tracking-wide h-7 sm:h-8 md:h-9 px-2 sm:px-3"
+          >
+            WORKSHOP
           </Button>
         </div>
 
