@@ -166,81 +166,136 @@ export default function MatiksEvent() {
       </section>
 
       {/* Download App Section */}
-      <section className="py-16 px-6 border-t border-gray-800">
-        <div className="max-w-3xl mx-auto text-center">
-          <div className="bg-gray-900 border border-[#00ff88] rounded-2xl p-8 space-y-8">
-            <div className="relative">
-              <div className="w-24 h-24 bg-gradient-to-br from-[#00ff88] to-green-400 rounded-2xl mx-auto flex items-center justify-center mb-6">
-                <span className="text-3xl font-bold text-black">M</span>
+      <section className="py-20 px-6 border-t border-gray-800 bg-gradient-to-b from-black to-gray-950">
+        <div className="max-w-6xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="space-y-12"
+          >
+            {/* Header */}
+            <div className="text-center space-y-4">
+              <div className="w-24 h-24 bg-gray-800 border border-[#00ff88] rounded-2xl mx-auto flex items-center justify-center mb-6 p-2">
+                <Image 
+                  src="/matiks.png" 
+                  alt="Matiks Logo" 
+                  width={80} 
+                  height={80}
+                  className="brightness-110"
+                />
               </div>
-              <div className="absolute -top-2 left-1/2 -translate-x-1/2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center mx-auto">
-                <span className="text-xs font-bold text-white">!</span>
-              </div>
-            </div>
-            
-            <div>
-              <h3 className="text-2xl font-bold text-white mb-2">Matiks</h3>
-              <p className="text-gray-400 mb-2">Mental Fitness for Everyone</p>
-              <p className="text-sm text-gray-500">
-                Choose your platform and start your journey
+              <h2 className="text-5xl font-black text-white uppercase tracking-tight">
+                <span className="text-[#00ff88]">Matiks</span>
+              </h2>
+              <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+                Mental Fitness for Everyone • Available on All Platforms
               </p>
             </div>
-            
-            {/* Platform Buttons */}
-            <div className="grid md:grid-cols-3 gap-4">
+
+            {/* Platform Cards */}
+            <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
               {/* Play Store */}
-              <Button 
-                asChild
-                className="bg-gray-800 hover:bg-[#00ff88] hover:text-black text-white font-bold px-6 py-6 rounded-xl border border-gray-700 hover:border-[#00ff88] transition-all flex flex-col items-center gap-2 h-auto"
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+                className="group relative"
               >
+                <div className="absolute inset-0 bg-gradient-to-br from-[#00ff88] to-green-600 rounded-2xl blur-xl opacity-0 group-hover:opacity-20 transition-opacity" />
                 <a 
                   href="https://play.google.com/store/apps/details?id=com.matiks.app" 
                   target="_blank" 
                   rel="noopener noreferrer"
+                  className="relative block bg-gray-900 border-2 border-gray-800 hover:border-[#00ff88] rounded-2xl p-8 transition-all hover:scale-105 hover:shadow-xl hover:shadow-[#00ff88]/10"
                 >
-                  <Smartphone className="w-8 h-8" />
-                  <span className="text-base">Play Store</span>
-                  <span className="text-xs opacity-70">Android App</span>
+                  <div className="flex flex-col items-center text-center space-y-4">
+                    <div className="w-16 h-16 bg-gradient-to-br from-[#00ff88]/20 to-green-600/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <Smartphone className="w-8 h-8 text-[#00ff88]" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold text-white mb-1">Play Store</h3>
+                      <p className="text-sm text-gray-400">Android App</p>
+                    </div>
+                    <div className="w-full pt-4 border-t border-gray-800">
+                      <span className="text-xs text-gray-500 uppercase tracking-wider">Download Now</span>
+                    </div>
+                  </div>
                 </a>
-              </Button>
+              </motion.div>
 
               {/* Web App */}
-              <Button 
-                asChild
-                className="bg-gray-800 hover:bg-[#00ff88] hover:text-black text-white font-bold px-6 py-6 rounded-xl border border-gray-700 hover:border-[#00ff88] transition-all flex flex-col items-center gap-2 h-auto"
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+                className="group relative"
               >
+                <div className="absolute inset-0 bg-gradient-to-br from-[#00ff88] to-green-600 rounded-2xl blur-xl opacity-0 group-hover:opacity-20 transition-opacity" />
                 <a 
                   href="https://www.matiks.in/" 
                   target="_blank" 
                   rel="noopener noreferrer"
+                  className="relative block bg-gray-900 border-2 border-gray-800 hover:border-[#00ff88] rounded-2xl p-8 transition-all hover:scale-105 hover:shadow-xl hover:shadow-[#00ff88]/10"
                 >
-                  <Globe className="w-8 h-8" />
-                  <span className="text-base">Web App</span>
-                  <span className="text-xs opacity-70">Browser Access</span>
+                  <div className="flex flex-col items-center text-center space-y-4">
+                    <div className="w-16 h-16 bg-gradient-to-br from-[#00ff88]/20 to-green-600/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <Globe className="w-8 h-8 text-[#00ff88]" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold text-white mb-1">Web App</h3>
+                      <p className="text-sm text-gray-400">Browser Access</p>
+                    </div>
+                    <div className="w-full pt-4 border-t border-gray-800">
+                      <span className="text-xs text-gray-500 uppercase tracking-wider">Launch Now</span>
+                    </div>
+                  </div>
                 </a>
-              </Button>
+              </motion.div>
 
               {/* Desktop */}
-              <Button 
-                asChild
-                className="bg-gray-800 hover:bg-[#00ff88] hover:text-black text-white font-bold px-6 py-6 rounded-xl border border-gray-700 hover:border-[#00ff88] transition-all flex flex-col items-center gap-2 h-auto"
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3 }}
+                className="group relative"
               >
+                <div className="absolute inset-0 bg-gradient-to-br from-[#00ff88] to-green-600 rounded-2xl blur-xl opacity-0 group-hover:opacity-20 transition-opacity" />
                 <a 
                   href="https://www.matiks.in/desktop" 
                   target="_blank" 
                   rel="noopener noreferrer"
+                  className="relative block bg-gray-900 border-2 border-gray-800 hover:border-[#00ff88] rounded-2xl p-8 transition-all hover:scale-105 hover:shadow-xl hover:shadow-[#00ff88]/10"
                 >
-                  <Monitor className="w-8 h-8" />
-                  <span className="text-base">Desktop</span>
-                  <span className="text-xs opacity-70">Windows/Mac</span>
+                  <div className="flex flex-col items-center text-center space-y-4">
+                    <div className="w-16 h-16 bg-gradient-to-br from-[#00ff88]/20 to-green-600/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <Monitor className="w-8 h-8 text-[#00ff88]" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold text-white mb-1">Desktop</h3>
+                      <p className="text-sm text-gray-400">Windows/Mac</p>
+                    </div>
+                    <div className="w-full pt-4 border-t border-gray-800">
+                      <span className="text-xs text-gray-500 uppercase tracking-wider">Download Now</span>
+                    </div>
+                  </div>
                 </a>
-              </Button>
+              </motion.div>
             </div>
-            
-            <p className="text-xs text-gray-500">
-              All platforms sync seamlessly • One account, everywhere
-            </p>
-          </div>
+
+            {/* Bottom Text */}
+            <div className="text-center">
+              <div className="inline-flex items-center gap-2 px-6 py-3 bg-gray-900 border border-gray-800 rounded-full">
+                <div className="w-2 h-2 bg-[#00ff88] rounded-full animate-pulse" />
+                <p className="text-sm text-gray-400">
+                  All platforms sync seamlessly • One account, everywhere
+                </p>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
