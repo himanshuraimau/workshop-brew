@@ -45,7 +45,7 @@ const variants = {
 export default function HomePage() {
   const [[currentSlide, direction], setPage] = useState([0, 0])
   const [copied, setCopied] = useState<number | null>(null)
-  const [mode, setMode] = useState<NavigationMode>("workshop")
+  const [mode, setMode] = useState<NavigationMode>("matiks")
 
   // Smart Page Change Handler
   const paginate = useCallback((newDirection: number) => {
