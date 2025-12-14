@@ -17,6 +17,43 @@ export default function MatiksEvent() {
     setTimeout(() => setCopiedPasscode(false), 2000)
   }
 
+  const joinLeague = () => {
+    // Detect device type
+    const userAgent = navigator.userAgent.toLowerCase()
+    const isAndroid = userAgent.includes('android')
+    const isIOS = userAgent.includes('iphone') || userAgent.includes('ipad')
+    const isMobile = isAndroid || isIOS
+    
+    // URLs for different platforms
+    const matiksAppUrl = "matiks://league/join"
+    const androidDownloadUrl = "https://play.google.com/store/apps/details?id=com.matiks.app"
+    const webAppUrl = "https://www.matiks.in/"
+    const desktopUrl = "https://www.matiks.in/desktop"
+    
+    if (isMobile) {
+      // On mobile, try to open the app first
+      window.location.href = matiksAppUrl
+      
+      // Fallback to app store after a short delay
+      setTimeout(() => {
+        if (isAndroid) {
+          window.open(androidDownloadUrl, '_blank')
+        } else {
+          // For iOS or other mobile, go to web app
+          window.open(webAppUrl, '_blank')
+        }
+      }, 1500)
+    } else {
+      // On desktop, try web app first, then desktop download
+      window.open(webAppUrl, '_blank')
+      
+      // Also open desktop download as backup
+      setTimeout(() => {
+        window.open(desktopUrl, '_blank')
+      }, 1000)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Hero Section */}
@@ -349,6 +386,7 @@ export default function MatiksEvent() {
             {/* Call to Action */}
             <div className="text-center">
               <Button 
+                onClick={joinLeague}
                 size="lg"
                 className="bg-[#00ff88] text-black hover:bg-[#00ff88]/90 font-bold px-8 py-4 text-lg"
               >
